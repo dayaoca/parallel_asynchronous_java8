@@ -1,4 +1,4 @@
-package executor;
+package com.learnjava.executor;
 
 import com.learnjava.domain.movie.Product;
 import com.learnjava.domain.movie.ProductInfo;
