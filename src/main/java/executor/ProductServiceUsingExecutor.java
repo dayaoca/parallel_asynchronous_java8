@@ -7,6 +7,7 @@ import com.learnjava.service.ProductInfoService;
 import com.learnjava.service.ReviewService;
 import com.learnjava.thread.ProductServiceUsingThread;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -24,26 +25,18 @@ public class ProductServiceUsingExecutor {
         this.reviewService = reviewService;
     }
 
-    public Product retrieveProductDetails(String productId) throws InterruptedException{
+    public Product retrieveProductDetails(String productId) throws InterruptedException, ExecutionException {
         stopWatch.start();
 
         Future<ProductInfo> productInfoFuture = executorService.submit(()->productInfoService.retrieveProductInfo(productId));
+        Future<Review> reviewFuture =  executorService.submit(()->reviewService.retrieveReview(productId));
 
-        ProductServiceUsingThread.ProductInfoRunnable productInfoRunnable = new ProductServiceUsingThread.ProductInfoRunnable(productId);
-        ProductServiceUsingThread.ReviewRunnable reviewRunnable = new ProductServiceUsingThread.ReviewRunnable(productId);
-
-        Thread productInfoThread = new Thread(productInfoRunnable);
-        Thread reviewThread = new Thread(reviewRunnable);
-
-        productInfoThread.start();
-        reviewThread.start();
-
-        productInfoThread.join();
-        reviewThread.join();
+        ProductInfo productInfo = productInfoFuture.get();
+        Review review = reviewFuture.get();
 
         stopWatch.stop();
         log("Total Time Taken : "+ stopWatch.getTime());
-        return new Product(productId, productInfoRunnable.productInfo, reviewRunnable.review);
+        return new Product(productId, productInfo, review);
     }
 
     private class ProductInfoRunnable implements Runnable{
