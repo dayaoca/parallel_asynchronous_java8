@@ -31,12 +31,22 @@ public class ParallelStreamsExample {
                 .collect(Collectors.toList());
     }
 
+    public List<String> stringtoLowerCase(List<String> namesList){
+        return namesList
+                .stream()
+                .map(this::toLowerStringCase)
+                .collect(Collectors.toList());
+    }
+
     public static void main(String[] args) {
         List<String> namesList = DataSet.namesList();
         ParallelStreamsExample parallelStreamsExample = new ParallelStreamsExample();
         startTimer();
-        List<String> resultList = parallelStreamsExample.stringTransform(namesList);
-        log("resultList : "+resultList);
+      //  List<String> resultList = parallelStreamsExample.stringTransform(namesList);
+      //  log("resultList : "+resultList);
+
+        List<String> lowerCaseList = parallelStreamsExample.stringtoLowerCase(namesList);
+        log("lower case resultList : "+lowerCaseList);
         timeTaken();
     }
 
@@ -44,4 +54,10 @@ public class ParallelStreamsExample {
         delay(500);
         return name.length()+"-"+name;
     }
+
+    private String toLowerStringCase(String name){
+        delay(500);
+        return name.toLowerCase();
+    }
+
 }
