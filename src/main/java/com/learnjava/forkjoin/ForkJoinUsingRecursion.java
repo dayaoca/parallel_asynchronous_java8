@@ -1,9 +1,6 @@
 package com.learnjava.forkjoin;
 
 
-
-import com.learnjava.util.DataSet;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
@@ -26,7 +23,7 @@ public class ForkJoinUsingRecursion extends RecursiveTask<List<String>> {
 
         stopWatch.start();
         List<String> resultList = new ArrayList<>();
-        List<String> names = DataSet.namesList();
+        List<String> names = List.of("Bob", "Jamie", "Jill", "Rick");
 
         ForkJoinPool forkJoinPool = new ForkJoinPool();
 
