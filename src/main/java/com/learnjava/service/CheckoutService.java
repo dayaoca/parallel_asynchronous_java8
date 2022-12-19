@@ -49,4 +49,11 @@ public class CheckoutService {
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }
+
+    private Double calculateFinalPrice_reduce(Cart cart){
+        return cart.getCartItemList()
+                .parallelStream()
+                .map(cartItem->cartItem.getQuantity()*cartItem.getRate())
+                .reduce(0.0,(x,y)->x+y);
+    }
 }
