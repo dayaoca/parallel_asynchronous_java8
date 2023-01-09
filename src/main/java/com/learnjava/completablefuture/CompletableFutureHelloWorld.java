@@ -9,11 +9,17 @@ import static org.apache.commons.lang3.StringUtils.join;
 public class CompletableFutureHelloWorld {
     public static void main(String args[]){
         HelloWorldService hws = new HelloWorldService();
-        CompletableFuture.supplyAsync(()->hws.helloWorld())
+        //method1
+      /*  CompletableFuture.supplyAsync(()->hws.helloWorld())
+                .thenApply((result)->result.toUpperCase())
                 .thenAccept((result)->{
                     log("result :"+result);
+                }).join();*/
+        CompletableFuture.supplyAsync(hws::helloWorld)
+                .thenApply(String::toUpperCase)
+                .thenAccept((result)->{
+                    log("Result is "+result);
                 }).join();
-
         log("Done!");
         //delay(2000);
 
