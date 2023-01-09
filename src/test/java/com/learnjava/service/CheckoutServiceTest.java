@@ -59,4 +59,16 @@ class CheckoutServiceTest {
         System.out.println("Parallelism :"+ ForkJoinPool.getCommonPoolParallelism());
     }
 
+    @Test
+    void modify_parallelism(){
+        //given
+        Cart cart = DataSet.createCart(100);
+        //changing default parallelism configuration
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "100");
+        //when
+        CheckoutResponse checkoutResponse = checkoutService.checkout(cart);
+        //then
+        assertEquals(CheckoutStatus.FAILURE, checkoutResponse.getCheckoutStatus());
+    }
+
 }
