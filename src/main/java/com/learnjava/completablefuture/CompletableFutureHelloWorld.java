@@ -39,4 +39,9 @@ public class CompletableFutureHelloWorld {
           //  .join();
 
     }
+
+    public CompletableFuture<String> helloWorld_withSize(){
+        return CompletableFuture.supplyAsync(hws::helloWorld)
+                .thenApply((s)->s.length()+"-"+s.toUpperCase());
+    }
 }
