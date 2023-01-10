@@ -7,14 +7,20 @@ import static com.learnjava.util.LoggerUtil.log;
 import static org.apache.commons.lang3.StringUtils.join;
 
 public class CompletableFutureHelloWorld {
-    public static void main(String args[]){
+
+    private HelloWorldService hws;
+
+    public CompletableFutureHelloWorld(HelloWorldService hws){
+        this.hws = hws;
+    }
+    /*public static void main(String args[]){
         HelloWorldService hws = new HelloWorldService();
         //method1
-      /*  CompletableFuture.supplyAsync(()->hws.helloWorld())
+      *//*  CompletableFuture.supplyAsync(()->hws.helloWorld())
                 .thenApply((result)->result.toUpperCase())
                 .thenAccept((result)->{
                     log("result :"+result);
-                }).join();*/
+                }).join();*//*
         CompletableFuture.supplyAsync(hws::helloWorld)
                 .thenApply(String::toUpperCase)
                 .thenAccept((result)->{
@@ -22,7 +28,15 @@ public class CompletableFutureHelloWorld {
                 }).join();
         log("Done!");
         //delay(2000);
+    }*/
 
+    public CompletableFuture<String> helloWorld(){
+        return CompletableFuture.supplyAsync(hws::helloWorld)
+                .thenApply(String::toUpperCase);
+               // .thenAccept((result)->{
+               //     log("result is :"+result);
+               // })
+          //  .join();
 
     }
 }
