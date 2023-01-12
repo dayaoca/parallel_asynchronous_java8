@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
 
+import static com.learnjava.util.CommonUtil.startTimer;
+import static com.learnjava.util.CommonUtil.timeTaken;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CompletableFutureHelloWorldTest {
@@ -38,4 +40,23 @@ class CompletableFutureHelloWorldTest {
     }
 
 
+    @Test
+    void helloWorld_approach1() {
+        //given
+        startTimer();
+        //when
+        String str = cfhw.helloWorld_approach1();
+        //then
+        assertEquals("hello world", str);
+        timeTaken();
+    }
+
+    @Test
+    void helloWorld_multiple_async_calls() {
+        //given
+        //when
+        String helloWorld = cfhw.helloWorld_multiple_async_calls();
+        //then
+        assertEquals("HELLOWORLD", helloWorld);
+    }
 }
