@@ -59,4 +59,13 @@ class CompletableFutureHelloWorldTest {
         //then
         assertEquals("HELLOWORLD", helloWorld);
     }
+
+    @Test
+    void hellowWorld_3_async_calls() {
+        //given
+        //when
+        String helloWorld = cfhw.hellowWorld_3_async_calls();
+        //then
+        assertEquals("HELLOWORLDHI COMPLETABLEFUTURE!", helloWorld);
+    }
 }
