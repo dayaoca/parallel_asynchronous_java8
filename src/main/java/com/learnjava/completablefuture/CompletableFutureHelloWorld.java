@@ -106,4 +106,10 @@ public class CompletableFutureHelloWorld {
         return hw;
 
     }
+
+    public CompletableFuture<String> helloWorld_thenCompose(){
+        return CompletableFuture.supplyAsync(hws::hello)
+                .thenCompose((previous)->hws.worldFuture(previous))
+                .thenApply(String::toUpperCase);
+    }
 }

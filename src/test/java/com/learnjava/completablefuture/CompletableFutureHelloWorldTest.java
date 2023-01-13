@@ -77,4 +77,17 @@ class CompletableFutureHelloWorldTest {
         //then
         assertEquals("HELLOWORLDHI COMPLETABLEFUTUREBYE",hw);
     }
+
+    @Test
+    void helloWorld_thenCompose() {
+        //given
+        startTimer();
+        //when
+        CompletableFuture<String> completableFuture = cfhw.helloWorld_thenCompose();
+        //then
+        completableFuture.thenAccept(s->{
+            assertEquals("HELLOWORLD!", s);
+        }).join();
+        timeTaken();
+    }
 }
