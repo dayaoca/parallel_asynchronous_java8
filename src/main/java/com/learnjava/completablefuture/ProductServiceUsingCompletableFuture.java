@@ -37,6 +37,15 @@ public class ProductServiceUsingCompletableFuture {
         return product;
     }
 
+    public CompletableFuture<Product> retrieveProductDetails_approach2(String productId){
+        CompletableFuture<ProductInfo> cfProductInfo
+                = CompletableFuture.supplyAsync(()->productInfoService.retrieveProductInfo(productId));
+        CompletableFuture<Review> cfReviews
+                = CompletableFuture.supplyAsync(()->reviewService.retrieveReview(productId));
+        return cfProductInfo
+                .thenCombine(cfReviews, (productInfo,review)-> new Product(productId, productInfo, review));
+    }
+
     public static void main(String[] args) {
 
             ProductInfoService productInfoService = new ProductInfoService();
