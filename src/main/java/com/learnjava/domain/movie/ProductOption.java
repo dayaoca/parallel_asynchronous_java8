@@ -22,4 +22,12 @@ public class ProductOption {
         this.color = color;
         this.price = price;
     }
+
+    public ProductOption(Integer productionOptionId, String size, String color, double price, Inventory inventory) {
+        this.productionOptionId = productionOptionId;
+        this.size = size;
+        this.color = color;
+        this.price = price;
+        this.inventory = inventory;
+    }
 }

@@ -38,10 +38,13 @@ public class ProductServiceUsingCompletableFuture {
     }
 
     public CompletableFuture<Product> retrieveProductDetails_approach2(String productId){
+        stopWatch.start();
         CompletableFuture<ProductInfo> cfProductInfo
                 = CompletableFuture.supplyAsync(()->productInfoService.retrieveProductInfo(productId));
         CompletableFuture<Review> cfReviews
                 = CompletableFuture.supplyAsync(()->reviewService.retrieveReview(productId));
+        stopWatch.stop();
+        log("Total Time Taken : "+ stopWatch.getTime());
         return cfProductInfo
                 .thenCombine(cfReviews, (productInfo,review)-> new Product(productId, productInfo, review));
     }
