@@ -46,13 +46,23 @@ public class CompletableFutureHelloWorldException {
         });
         String hw  = hello
                 .handle((res,e)->{
-                    log("Exception is :"+e.getMessage());
-                    return " ";
+                    log("res is :"+res);
+                    if(e!=null) {
+                        log("Exception is :" + e.getMessage());
+                        return " ";
+                    }else{
+                        return res;
+                    }
                 })
                 .thenCombine(world, (h,w)->h+w)
                 .handle((res,e)->{
-                    log("Exception after world is :"+e.getMessage());
-                    return " ";
+                    log("res 2 is :"+res);
+                    if(e!=null) {
+                        log("Exception after world is :" + e.getMessage());
+                        return " ";
+                    }else{
+                        return res;
+                    }
                 })
                 .thenCombine(hiCompletableFuture, (previous,current)->previous+current)
                 .thenApply(String::toUpperCase)
