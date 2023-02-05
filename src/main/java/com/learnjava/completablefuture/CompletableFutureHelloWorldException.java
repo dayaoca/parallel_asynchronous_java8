@@ -1,5 +1,6 @@
 package com.learnjava.completablefuture;
 
+import java.awt.desktop.AppReopenedEvent;
 import java.util.concurrent.CompletableFuture;
 
 import static com.learnjava.util.CommonUtil.*;
@@ -94,6 +95,39 @@ public class CompletableFutureHelloWorldException {
                 .join();
         timeTaken();
         return hw;
+    }
+
+    public String helloworld_3_async_calls_whenhandle(){
+        startTimer();
+        CompletableFuture<String> hello = CompletableFuture.supplyAsync(()->hws.hello());
+        CompletableFuture<String> world = CompletableFuture.supplyAsync(()->hws.world());
+        CompletableFuture<String> hiCompletableFuture = CompletableFuture.supplyAsync(()->{
+            delay(1000);
+            return " Hi Completablefuture!";
+        });
+        String hw = hello.whenComplete((res,e)->{
+            log("res is :"+res);
+            if(e!=null){
+                log("exception is "+e.getMessage());
+            }
+        })
+                .thenCombine(world, (previous,current)-> previous+current)
+                .whenComplete((res1,e)->{
+                    log("res1 is :"+res1);
+                    if(e!=null){
+                        log("exception 1 is "+e.getMessage());
+                    }
+                })
+                .exceptionally((e)->{
+                    log("Exception after thenCombine is :"+e.getMessage());
+                    return " ";
+                })
+                .thenCombine(hiCompletableFuture,(prev,curr)->prev+curr)
+                .thenApply(String::toUpperCase)
+                .join();
+        timeTaken();
+        return hw;
+
     }
 
 }
