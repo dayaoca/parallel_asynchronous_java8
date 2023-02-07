@@ -93,12 +93,20 @@ public class ProductServiceUsingCompletableFuture {
                     productInfo.setProductOptions(updateInventory_approach2(productInfo));
                     return productInfo;
                 });
-        CompletableFuture<Review> cfReview = CompletableFuture.supplyAsync(()->reviewService.retrieveReview(productId));
-
+        CompletableFuture<Review> cfReview = CompletableFuture.supplyAsync(()->reviewService.retrieveReview(productId))
+                .exceptionally((e)->{
+                    log("handled the exception in reviewservice :"+e.getMessage());
+                    //default review object, anytime exception occurs, exceptionally block will execute and provide with recoverable value
+                    return Review.builder().noOfReviews(0).overallRating(0.0)
+                            .build();
+                });
         Product product = cfProductInfo
                 .thenCombine(cfReview, (productInfo,review) -> new Product(productId, productInfo, review))
                 .join();
-        timeTaken();
+        stopWatch.stop();
+        //timeTaken();
+        log("Total time taken :"+stopWatch.getTime());
+        log("product :"+product);
         return product;
     }
 
