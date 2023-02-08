@@ -5,10 +5,14 @@ import com.learnjava.service.InventoryService;
 import com.learnjava.service.ProductInfoService;
 import com.learnjava.service.ReviewService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ProductServiceUsingCompletableFutureTest {
 
@@ -17,6 +21,9 @@ class ProductServiceUsingCompletableFutureTest {
     private InventoryService is = new InventoryService();
     private ProductServiceUsingCompletableFuture pscf
             = new ProductServiceUsingCompletableFuture(pis,rs,is);
+
+    @Mock
+    InventoryService inventoryService = mock(InventoryService.class);
 
     @Test
     void retrieveProductDetails(){
@@ -80,5 +87,25 @@ class ProductServiceUsingCompletableFutureTest {
                     assertNotNull(productOption.getInventory());
                 });
         assertNotNull(product.getReview());
+    }
+
+    @Test
+    void retrieveProductDetailsWithInventory_withException(){
+        //given
+        String productId = "ABC123";
+        when(inventoryService.retrieveInventory(any())).thenThrow(new RuntimeException("exception occurred in inventory"));
+        //when
+        Product product = pscf.retrieveProductDetailsWithInventory_approach2(productId);
+        //then
+        assertNotNull(product);
+        assertTrue(product.getProductInfo().getProductOptions().size()>1);
+        //assert the inventrory service
+        product.getProductInfo().getProductOptions()
+                .forEach(productOption->{
+                    assertNotNull(productOption.getInventory());
+                    assertEquals(2, productOption.getInventory().getCount());
+                });
+        assertNotNull(product.getReview());
+
     }
 }
