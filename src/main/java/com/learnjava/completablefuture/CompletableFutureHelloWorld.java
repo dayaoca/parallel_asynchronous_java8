@@ -82,6 +82,33 @@ public class CompletableFutureHelloWorld {
         return hw;
     }
 
+    public String helloWorld_3_async_calls_logs(){
+        startTimer();
+        CompletableFuture<String> hello = CompletableFuture.supplyAsync(()->hws.hello());
+        CompletableFuture<String> world = CompletableFuture.supplyAsync(()->hws.world());
+
+        CompletableFuture<String> hiCompletableFuture = CompletableFuture.supplyAsync(()->{
+            delay(1000);
+            return "Hi Completablefuture!";
+        });
+        String hw = hello
+                .thenCombine(world, (h,w)->{
+                    log("thenCombine h/w");
+                    return h+w;
+                })
+                .thenCombine(hiCompletableFuture, (prev,curr)->{
+                    log("thenCombine prev+curr");
+                    return prev+curr;
+                })
+                .thenApply(s->{
+                    log("then apply");
+                    return s.toUpperCase();
+                })
+                .join();
+        timeTaken();
+        return hw;
+    }
+
     public String helloWorld_4_async_calls(){
         startTimer();
         CompletableFuture<String> hello = CompletableFuture.supplyAsync(()->hws.hello());
