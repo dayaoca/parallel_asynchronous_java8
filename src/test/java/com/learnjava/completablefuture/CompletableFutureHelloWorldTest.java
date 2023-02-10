@@ -108,4 +108,22 @@ class CompletableFutureHelloWorldTest {
         //then
         assertEquals("HELLOWORLD! HI COMPLETABLEFUTURE!", helloWorld);
     }
+
+    @Test
+    void helloWorld_3_async_calls_log_async() {
+        //given
+        //when
+        String helloWorld = cfhw.helloWorld_3_async_calls_log_async();
+        //then
+        assertEquals("HELLOWORLD! HI COMPLETABLEFUTURE!", helloWorld);
+    }
+
+    @Test
+    void helloWorld_3_async_calls_custom_threadpool_async() {
+        //given
+        //when
+        String helloWorld = cfhw.helloWorld_3_async_calls_custom_threadpool_async();
+        //then
+        assertEquals("HELLOWORLD! HI COMPLETABLEFUTURE", helloWorld);
+    }
 }

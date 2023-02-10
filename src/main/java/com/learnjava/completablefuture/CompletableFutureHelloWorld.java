@@ -169,4 +169,55 @@ public class CompletableFutureHelloWorld {
                 .join();
         return hw;
     }
+
+    public String helloWorld_3_async_calls_log_async(){
+        startTimer();
+        CompletableFuture<String> hello = CompletableFuture.supplyAsync(()->hws.hello());
+        CompletableFuture<String> world = CompletableFuture.supplyAsync(()->hws.world());
+        CompletableFuture<String> hiCompletableFuture = CompletableFuture.supplyAsync(()->{
+            delay(1000);
+            return " Hi Completablefuture!";
+        });
+        String hw = hello
+                .thenCombineAsync(world, (h,w)->{
+                    log("thenCombine h/w");
+                    return h+w;
+                }).thenCombineAsync(hiCompletableFuture, (prev,curr)->{
+                    log("thenCombone prev+curr");
+                    return prev+curr;
+                }).thenApplyAsync(s->{
+                    log("thenApply");
+                    return s.toUpperCase();
+                }).join();
+        timeTaken();
+        return hw;
+
+    }
+
+    public String helloWorld_3_async_calls_custom_threadpool_async() {
+        startTimer();
+
+        ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        CompletableFuture<String> hello = CompletableFuture.supplyAsync(() -> hws.hello(), es);
+        CompletableFuture<String> world = CompletableFuture.supplyAsync(() -> hws.world(), es);
+        CompletableFuture<String> hiCompletableFuture = CompletableFuture.supplyAsync(
+                () -> {
+                    delay(1000);
+                    return " Hi Completablefuture";
+                }, es);
+        String hw = hello.thenCombineAsync(world, (h, w) -> {
+            log("thenCombine h+w");
+            return h + w;
+        }, es)
+                .thenCombineAsync(hiCompletableFuture, (prev, curr) -> {
+                    log("thenCombine prev+curr");
+                    return prev + curr;
+                }, es)
+                .thenApplyAsync(s -> {
+                    log("thenApply");
+                    return s.toUpperCase();
+                }, es).join();
+        timeTaken();
+        return hw;
+    }
 }
