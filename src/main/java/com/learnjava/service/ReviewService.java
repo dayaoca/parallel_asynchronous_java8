@@ -1,6 +1,6 @@
 package com.learnjava.service;
 
-import com.learnjava.domain.movie.Review;
+import com.learnjava.domain.Review;
 import com.learnjava.util.LoggerUtil;
 
 import static com.learnjava.util.CommonUtil.delay;

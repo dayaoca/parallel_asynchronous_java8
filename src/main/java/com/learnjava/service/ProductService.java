@@ -1,8 +1,8 @@
 package com.learnjava.service;
 
-import com.learnjava.domain.movie.Product;
-import com.learnjava.domain.movie.ProductInfo;
-import com.learnjava.domain.movie.Review;
+import com.learnjava.domain.Product;
+import com.learnjava.domain.ProductInfo;
+import com.learnjava.domain.Review;
 
 import static com.learnjava.util.CommonUtil.stopWatch;
 import static com.learnjava.util.LoggerUtil.log;

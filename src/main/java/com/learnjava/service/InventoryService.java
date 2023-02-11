@@ -1,7 +1,7 @@
 package com.learnjava.service;
 
-import com.learnjava.domain.movie.Inventory;
-import com.learnjava.domain.movie.ProductOption;
+import com.learnjava.domain.Inventory;
+import com.learnjava.domain.ProductOption;
 
 import static com.learnjava.util.CommonUtil.delay;
 

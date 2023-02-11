@@ -1,6 +1,6 @@
 package com.learnjava.completablefuture;
 
-import com.learnjava.domain.movie.Product;
+import com.learnjava.domain.Product;
 import com.learnjava.service.InventoryService;
 import com.learnjava.service.ProductInfoService;
 import com.learnjava.service.ReviewService;

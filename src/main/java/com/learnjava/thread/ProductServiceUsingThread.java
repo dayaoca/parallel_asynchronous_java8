@@ -1,8 +1,8 @@
 package com.learnjava.thread;
 
-import com.learnjava.domain.movie.Product;
-import com.learnjava.domain.movie.ProductInfo;
-import com.learnjava.domain.movie.Review;
+import com.learnjava.domain.Product;
+import com.learnjava.domain.ProductInfo;
+import com.learnjava.domain.Review;
 import com.learnjava.service.ProductInfoService;
 import com.learnjava.service.ReviewService;
 

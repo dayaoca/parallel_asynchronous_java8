@@ -1,7 +1,7 @@
 package com.learnjava.service;
 
-import com.learnjava.domain.movie.ProductInfo;
-import com.learnjava.domain.movie.ProductOption;
+import com.learnjava.domain.ProductInfo;
+import com.learnjava.domain.ProductOption;
 import com.learnjava.util.LoggerUtil;
 
 
