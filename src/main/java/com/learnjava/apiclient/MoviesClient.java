@@ -81,4 +81,20 @@ public class MoviesClient {
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
     }
+
+    public List<Movie> retrieveMovieList_CF_allOf(List<Long> movieInfoIds){
+        var movieFutures = movieInfoIds
+                .stream()
+                .map(this::retrievemovie_CF)
+                .collect(Collectors.toList());
+
+        var cfAllOf = CompletableFuture.allOf(movieFutures.toArray(new CompletableFuture[movieFutures.size()]));
+
+        return cfAllOf
+                .thenApply(v->movieFutures
+                .stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList()))
+                .join();
+    }
 }
