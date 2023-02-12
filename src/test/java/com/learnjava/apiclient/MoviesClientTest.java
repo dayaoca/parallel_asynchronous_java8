@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.web.reactive.function.client.WebClient.builder;
 
@@ -48,6 +50,35 @@ public class MoviesClientTest {
         assert movie!=null;
         assertEquals("Batman Begins",movie.getMovieInfo().getName());
         assert movie.getReviewList().size()==1;
+
+    }
+
+    @RepeatedTest(10)
+    void retrieveMovies() {
+        CommonUtil.startTimer();
+        //given
+        var movieInfoIds = List.of(1L,2L,3L,4L,5L,6L,7L);
+        //when
+        var movie = moviesClient.retrieveMovies(movieInfoIds);
+        System.out.println("movie==="+movie);
+        CommonUtil.timeTaken();
+        //then
+        assert movie!=null;
+        assert movie.size()==7;
+    }
+
+    @RepeatedTest(10)
+    void retrieveMoviesList_CF() {
+        CommonUtil.startTimer();
+        //given
+        var movieInfoIds = List.of(1L,2L,3L,4L,5L,6L,7L);
+        //when
+        var movie = moviesClient.retrieveMoviesList_CF(movieInfoIds);
+        System.out.println("movie==="+movie);
+        CommonUtil.timeTaken();
+        //then
+        assert movie!=null;
+        assert movie.size()==7;
 
     }
 }

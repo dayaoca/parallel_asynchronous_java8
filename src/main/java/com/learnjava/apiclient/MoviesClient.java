@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class MoviesClient {
 
@@ -61,5 +62,23 @@ public class MoviesClient {
             return new Movie(movieInfo1, reviews1);
         });
        // return movieInfo.thenCombine(reviews,Movie::new);
+    }
+
+    public List<Movie> retrieveMovies(List<Long> movieInfoIds){
+        return movieInfoIds
+                .stream()
+                .map(this::retrieveMovie)
+                .collect(Collectors.toList());
+    }
+
+    public List<Movie> retrieveMoviesList_CF(List<Long> movieInfoIds){
+        var movieFuture = movieInfoIds
+                .stream()
+                .map(this::retrievemovie_CF)
+                .collect(Collectors.toList());
+        return movieFuture
+                .stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
     }
 }
