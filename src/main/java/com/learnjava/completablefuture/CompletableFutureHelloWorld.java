@@ -1,5 +1,6 @@
 package com.learnjava.completablefuture;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -219,5 +220,37 @@ public class CompletableFutureHelloWorld {
                 }, es).join();
         timeTaken();
         return hw;
+    }
+
+    public String anyOf() {
+        //dbcall
+        CompletableFuture<String> dbCall = CompletableFuture.supplyAsync(() -> {
+            delay(4000);
+            log("response from db");
+            return "hello world!";
+        });
+        //restcall
+        CompletableFuture<String> restCall = CompletableFuture.supplyAsync(() -> {
+            delay(2000);
+            log("response from restcall");
+            return "hello worldrest!";
+        });
+        //soapcall
+        CompletableFuture<String> soapCall = CompletableFuture.supplyAsync(() -> {
+            delay(3000);
+            log("response from soapcall");
+            return "hello world!";
+        });
+
+        List<CompletableFuture> cfList = List.of(dbCall, restCall, soapCall);
+
+        CompletableFuture<Object> cfAnyOf = CompletableFuture.anyOf(cfList.toArray(new CompletableFuture[cfList.size()]));
+        String result = (String) cfAnyOf.thenApply(v -> {
+            if (v instanceof String) {
+                return v;
+            }
+            return null;
+        }).join();
+        return result;
     }
 }

@@ -126,4 +126,13 @@ class CompletableFutureHelloWorldTest {
         //then
         assertEquals("HELLOWORLD! HI COMPLETABLEFUTURE", helloWorld);
     }
+
+    @Test
+    void anyOf() {
+        //given
+        //when
+        String helloWorld = cfhw.anyOf();
+        //then
+        assertEquals("hello worldrest!", helloWorld);
+    }
 }
