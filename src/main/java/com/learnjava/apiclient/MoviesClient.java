@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class MoviesClient {
 
@@ -51,5 +52,14 @@ public class MoviesClient {
                 .collectList()
                 .block();
 
+    }
+
+    public CompletableFuture<Movie> retrievemovie_CF(Long movieInfoId){
+        var movieInfo = CompletableFuture.supplyAsync(()->invokeMovieInfoService(movieInfoId));
+        var reviews = CompletableFuture.supplyAsync(()->invokeReviewService(movieInfoId));
+        return movieInfo.thenCombine(reviews,(movieInfo1,reviews1)->{
+            return new Movie(movieInfo1, reviews1);
+        });
+       // return movieInfo.thenCombine(reviews,Movie::new);
     }
 }
